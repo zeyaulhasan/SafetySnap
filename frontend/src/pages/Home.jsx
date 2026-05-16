@@ -9,9 +9,11 @@ const Home = () => {
     <div className="min-h-[calc(100vh-80px)] overflow-x-hidden relative font-sans">
       
       {/* ── Background Glow Effects ── */}
-      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-emerald-500/20 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute top-[20%] right-[-5%] w-[400px] h-[400px] bg-teal-500/10 rounded-full blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[3rem]">
+        <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-emerald-500/20 rounded-full blur-[120px]" />
+        <div className="absolute top-[20%] right-[-5%] w-[400px] h-[400px] bg-teal-500/10 rounded-full blur-[100px]" />
+        <div className="absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[120px]" />
+      </div>
 
       <div className="max-w-7xl mx-auto px-6 pt-20 pb-24 relative z-10">
         
@@ -100,8 +102,10 @@ const Home = () => {
         </div>
 
         {/* ── Workflow Steps ── */}
-        <div className="bg-slate-900 rounded-[2.5rem] p-10 md:p-16 text-white relative overflow-hidden shadow-2xl">
-          <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/20 rounded-full blur-[100px] pointer-events-none translate-x-1/3 -translate-y-1/3" />
+        <div className="bg-slate-900 rounded-[2.5rem] p-10 md:p-16 text-white relative shadow-2xl">
+          <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[2.5rem]">
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-500/20 rounded-full blur-[100px] translate-x-1/3 -translate-y-1/3" />
+          </div>
           
           <h2 className="text-3xl md:text-4xl font-extrabold mb-12 text-center relative z-10">How SafetySnap Works</h2>
           

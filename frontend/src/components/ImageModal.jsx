@@ -26,8 +26,14 @@ export default function ImageModal({ image, onClose, onDelete }) {
   const isManager = currentUser && (currentUser.role === 'manager' || currentUser.role === 'admin');
 
   useEffect(() => {
+    // Pre-load voices to ensure they are available when needed
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      window.speechSynthesis.getVoices();
+    }
     return () => {
-      window.speechSynthesis.cancel();
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
     };
   }, []);
 
@@ -35,6 +41,14 @@ export default function ImageModal({ image, onClose, onDelete }) {
     window.speechSynthesis.cancel(); // Stop any currently playing audio
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = languageCode;
+    
+    // Explicitly try to find a voice that matches the language
+    const voices = window.speechSynthesis.getVoices();
+    const voice = voices.find(v => v.lang.startsWith(languageCode) || v.lang.startsWith(languageCode.split('-')[0]));
+    if (voice) {
+      utterance.voice = voice;
+    }
+    
     window.speechSynthesis.speak(utterance);
   };
 
