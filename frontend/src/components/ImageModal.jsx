@@ -38,18 +38,47 @@ export default function ImageModal({ image, onClose, onDelete }) {
   }, []);
 
   const playAudio = (text, languageCode) => {
+    if (!window.speechSynthesis) return;
     window.speechSynthesis.cancel(); // Stop any currently playing audio
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = languageCode;
-    
-    // Explicitly try to find a voice that matches the language
-    const voices = window.speechSynthesis.getVoices();
-    const voice = voices.find(v => v.lang.startsWith(languageCode) || v.lang.startsWith(languageCode.split('-')[0]));
-    if (voice) {
-      utterance.voice = voice;
+
+    const speakText = () => {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = languageCode;
+      utterance.rate = 0.9; // Slightly slower for better comprehension
+      
+      const voices = window.speechSynthesis.getVoices();
+      
+      if (voices.length > 0) {
+        // Try to aggressively find a matching voice
+        const targetLang = languageCode.split('-')[0]; // 'en' or 'hi'
+        let voice = voices.find(v => v.lang === languageCode || v.lang.replace('_', '-') === languageCode);
+        
+        if (!voice) {
+          voice = voices.find(v => v.lang.startsWith(targetLang));
+        }
+        if (!voice && targetLang === 'hi') {
+          // Some systems name it 'Hindi' without proper lang tags
+          voice = voices.find(v => v.name.toLowerCase().includes('hindi'));
+        }
+        
+        if (voice) {
+          utterance.voice = voice;
+        } else if (targetLang === 'hi') {
+          console.warn("No Hindi voice found on this system. Speech may be silent or mispronounced. Please install a Hindi TTS voice in your OS settings.");
+        }
+      }
+      
+      window.speechSynthesis.speak(utterance);
+    };
+
+    // If voices aren't loaded yet (common bug in Chrome/Windows), wait for them
+    if (window.speechSynthesis.getVoices().length === 0) {
+      window.speechSynthesis.addEventListener('voiceschanged', speakText, { once: true });
+      // Fallback in case the event never fires
+      setTimeout(speakText, 1000); 
+    } else {
+      speakText();
     }
-    
-    window.speechSynthesis.speak(utterance);
   };
 
   const handleResolve = async () => {
