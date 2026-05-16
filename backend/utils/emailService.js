@@ -14,10 +14,14 @@ async function initTransporter() {
   console.log(`   EMAIL_PASS: ${pass ? 'PRESENT (hidden)' : 'MISSING'}`);
 
   if (user && pass) {
-    // USE REAL GMAIL
-    console.log(`✉️ Connecting to Gmail: ${user}`);
+    const smtpHost = process.env.SMTP_HOST || 'smtp.gmail.com';
+    const smtpPort = parseInt(process.env.SMTP_PORT) || 465;
+    
+    console.log(`✉️ Connecting to SMTP: ${smtpHost}:${smtpPort}`);
     transporter = nodemailer.createTransport({
-      service: 'gmail',
+      host: smtpHost,
+      port: smtpPort,
+      secure: smtpPort === 465, // true for 465, false for other ports
       auth: { user, pass },
     });
     
