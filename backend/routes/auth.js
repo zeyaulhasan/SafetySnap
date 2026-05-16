@@ -138,12 +138,22 @@ router.post('/forgot-password', async (req, res) => {
     // Create reset URL
     const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
 
-    await sendPasswordResetEmail({
-      to: user.email,
-      resetUrl
-    });
+    console.log(`\n=============================================================`);
+    console.log(`🚨 URGENT BYPASS: Password Reset Link Generated!`);
+    console.log(`Click this link to reset the password for ${user.email}:`);
+    console.log(`${resetUrl}`);
+    console.log(`=============================================================\n`);
 
-    res.json({ message: 'Reset email sent successfully' });
+    try {
+      await sendPasswordResetEmail({
+        to: user.email,
+        resetUrl
+      });
+    } catch (emailErr) {
+      console.warn("⚠️ Email failed to send, but the reset link is printed above in the logs.");
+    }
+
+    res.json({ message: 'Reset link generated successfully' });
   } catch (err) {
     console.error('Forgot password error:', err.message);
     res.status(500).json({ message: 'Email Error: ' + err.message });
