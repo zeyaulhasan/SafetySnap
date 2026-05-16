@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+.env.*
+
+# Build folders
+dist/
+build/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VS Code
+.vscode/
+
+# Uploads
+uploads/
+
+# Vercel
+.vercel/
+
+# Certificates & Keys
+*.pem
+*.key
+*.crt
+
+# Python cache
+__pycache__/
+*.pyc
