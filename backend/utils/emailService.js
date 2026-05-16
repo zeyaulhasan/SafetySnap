@@ -121,6 +121,7 @@ async function sendPasswordResetEmail(options) {
     console.log("✅ PASSWORD RESET EMAIL SENT!");
   } catch (err) {
     console.error("❌ Failed to send reset email:", err.message);
+    throw err;
   }
 }
 
