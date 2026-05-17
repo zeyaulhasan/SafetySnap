@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Upload from './pages/Upload';
@@ -14,13 +14,16 @@ import { ToastProvider } from './contexts/ToastContext';
 
 function AppContent() {
   const { currentUser } = useAuth();
+  const location = useLocation();
   const isAuthenticated = !!currentUser;
   const isManager = currentUser && (currentUser.role === 'manager' || currentUser.role === 'admin');
+
+  const isHomePage = location.pathname === '/';
 
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar isAuthenticated={isAuthenticated} currentUser={currentUser} />
-      <main className="flex-grow container mx-auto px-4 py-8">
+      <main className={`flex-grow ${isHomePage ? '' : 'container mx-auto px-4 py-8'}`}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/upload"         element={isAuthenticated ? <Upload />    : <Navigate to="/login" />} />

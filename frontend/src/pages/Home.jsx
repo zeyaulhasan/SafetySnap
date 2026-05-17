@@ -9,7 +9,7 @@ const Home = () => {
     <div className="min-h-[calc(100vh-80px)] overflow-x-hidden relative font-sans">
       
       {/* ── Background Glow Effects ── */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none rounded-[3rem]">
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-emerald-500/20 rounded-full blur-[120px]" />
         <div className="absolute top-[20%] right-[-5%] w-[400px] h-[400px] bg-teal-500/10 rounded-full blur-[100px]" />
         <div className="absolute bottom-[-10%] left-[20%] w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[120px]" />
