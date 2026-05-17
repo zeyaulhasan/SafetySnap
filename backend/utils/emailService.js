@@ -80,7 +80,7 @@ async function sendViolationAlert(options) {
 
   try {
     await transporter.sendMail({
-      from: `"SafetySnap" <${process.env.EMAIL_USER || 'alerts@safetysnap.io'}>`,
+      from: `"SafetySnap" <${process.env.SENDER_EMAIL || process.env.EMAIL_USER || 'alerts@safetysnap.io'}>`,
       to: to || "safety-manager@company.com",
       subject: `⚠️ PPE Violation at ${siteName || 'Untagged Site'}`,
       html: html,
@@ -117,7 +117,7 @@ async function sendPasswordResetEmail(options) {
   try {
     console.log(`📨 Sending password reset email to: ${to}...`);
     await transporter.sendMail({
-      from: `"SafetySnap Support" <${process.env.EMAIL_USER || 'support@safetysnap.io'}>`,
+      from: `"SafetySnap Support" <${process.env.SENDER_EMAIL || process.env.EMAIL_USER || 'support@safetysnap.io'}>`,
       to: to,
       subject: "🔒 Reset Your SafetySnap Password",
       html: html,
